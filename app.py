@@ -128,7 +128,7 @@ def termsandconditions():
     return render_template("termsandconditions.html")
 
 @app.route("/instructions")
-def termsandconditions():
+def instructions():
     return render_template("instructions.html")
 
 if __name__ == "__main__":

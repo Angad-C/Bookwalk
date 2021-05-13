@@ -127,4 +127,4 @@ def delivered():
 def termsandconditions():
     return render_template("termsandconditions.html")
 
-app.run(debug=True)
+app.run()

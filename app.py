@@ -8,7 +8,7 @@ client = pymongo.MongoClient(connection_string)
 database = client["Entrepreneurship_Project_Database"]
 collection = database["My_Entrepreneurship_Project_Collection"]
 request_collection = database["Request_Collection"]
-app = Flask("My First App")
+app = Flask(__name__)
 
 @app.route("/")
 def welcome():
@@ -127,4 +127,5 @@ def delivered():
 def termsandconditions():
     return render_template("termsandconditions.html")
 
-app.run()
+if __name__ == "__main__":
+  app.run()

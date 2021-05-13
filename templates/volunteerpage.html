@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Your Requests</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      var email_addy = urlParams.get('email')
+      console.log(email_addy);
+    </script>
+
+    <center>
+    <a href="/"><img src="https://garfieldparkacademy.org/wp-content/uploads/2017/04/storywalk-graphic.png" alt="" class="image" height="200"></a>
+    <h1>Welcome to Bookwalk!</h1>
+    <h2>Here are Some Requests That Need to be Fullfilled!</h2>
+    <table>
+      <tr>
+        <th>Email Address</th>
+        <th>Library Address</th>
+        <th>Delivery Address</th>
+        <th>Pickup Code</th>
+        <th>Phone Number</th>
+        <th>Status</th>
+        <th>Sign Up</th>
+      </tr>
+      {% for user_request in user_requests %}
+      <tr>
+        <td>
+          {{user_request["Email Adress"]}}
+        </td>
+        <td>
+          {{user_request["Library Adress"]}}
+        </td>
+        <td>
+          {{user_request["Delivery Adress"]}}
+        </td>
+        <td>
+          {{user_request["Pickup Code"]}}
+        </td>
+        <td>
+          {{user_request["Phone Number"]}}
+        </td>
+        <td>
+          {{user_request["Status"]}}
+        </td>
+        <td>
+          <a href="./picked?_id={{ user_request['_id'] }}" onclick="location.href=this.href+'&email='+email_addy; return false"><button>Sign Up</button></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <!-- Your picks-->
+    <h2>Here Are The Requests That You Have Signed Up For!</h2>
+    <table>
+      <tr>
+        <th>Email Address</th>
+        <th>Library Address</th>
+        <th>Delivery Address</th>
+        <th>Pickup Code</th>
+        <th>Phone Number</th>
+        <th>Status</th>
+        <th>Cancel</th>
+        <th>Delivered</th>
+      </tr>
+      {% for my_pick in my_picks %}
+      <tr>
+        <td>
+          {{my_pick["Email Adress"]}}
+        </td>
+        <td>
+          {{my_pick["Library Adress"]}}
+        </td>
+        <td>
+          {{my_pick["Delivery Adress"]}}
+        </td>
+        <td>
+          {{my_pick["Pickup Code"]}}
+        </td>
+        <td>
+          {{my_pick["Phone Number"]}}
+        </td>
+        <td>
+          {{my_pick["Status"]}}
+        </td>
+        <td>
+          <a href="./cancel?_id={{ my_pick['_id'] }}" onclick="location.href=this.href+'&email='+email_addy; return false"><button>CANCEL</button></a>
+        </td>
+        <td>
+          <a href="./delivered?_id={{ my_pick['_id'] }}" onclick="location.href=this.href+'&email='+email_addy; return false"><button>Order Delivered</button></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+      <!-- Your Past Fulfilled tasks-->
+
+    <!-- Your Deliveries-->
+    <h2>Here Are The Requests That You Have Already Fulfilled!</h2>
+    <table>
+      <tr>
+        <th>Email Address</th>
+        <th>Library Address</th>
+        <th>Delivery Address</th>
+        <th>Pickup Code</th>
+        <th>Phone Number</th>
+      </tr>
+      {% for my_job in my_delivered %}
+      <tr>
+        <td>
+          {{my_job["Email Adress"]}}
+        </td>
+        <td>
+          {{my_job["Library Adress"]}}
+        </td>
+        <td>
+          {{my_job["Delivery Adress"]}}
+        </td>
+        <td>
+          {{my_job["Pickup Code"]}}
+        </td>
+        <td>
+          {{my_job["Phone Number"]}}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </center>
+  </body>
+</html>

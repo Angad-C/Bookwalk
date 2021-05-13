@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Your Requests</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      var email_addy = urlParams.get('email')
+      console.log(email_addy);
+    </script>
+
+    <center>
+    <a href="/"><img src="https://garfieldparkacademy.org/wp-content/uploads/2017/04/storywalk-graphic.png" alt="" class="image" height="200"></a>
+    <h1>Thank You For Using Bookwalk!</h1>
+    <h2>Your Request Has Been Recorded!</h2>
+    <table>
+      <tr>
+        <th>Email Address</th>
+        <th>Library Address</th>
+        <th>Delivery Address</th>
+        <th>Pickup Code</th>
+        <th>Phone Number</th>
+        <th>Status</th>
+        <th>Delete</th>
+      </tr>
+      {% for user_request in user_requests %}
+      <tr>
+        <td>
+          {{user_request["Email Adress"]}}
+        </td>
+        <td>
+          {{user_request["Library Adress"]}}
+        </td>
+        <td>
+          {{user_request["Delivery Adress"]}}
+        </td>
+        <td>
+          {{user_request["Pickup Code"]}}
+        </td>
+        <td>
+          {{user_request["Phone Number"]}}
+        </td>
+        <td>
+          {{user_request["Status"]}}
+        </td>
+        <td>
+          <!-- <a href="./remove?_id={{ user_request['_id'] }}"><button type="submit">DELETE</button></a> -->
+
+          <a href="./remove?_id={{ user_request['_id'] }}" onclick="location.href=this.href+'&email='+email_addy; return false"><button>DELETE</button></a>
+
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <a href="/customerrequestpage" onclick="location.href=this.href+'?email='+email_addy; return false"><button>Submit Another Request</button></a>
+    </center>
+  </body>
+</html>

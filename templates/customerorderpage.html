@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Place a Request</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/signup_style.css">
+  </head>
+  <body>
+    <center>
+    <a href="/"><img src="https://garfieldparkacademy.org/wp-content/uploads/2017/04/storywalk-graphic.png" alt="" class="image" height="300"></a>
+    <h1>Place a Request:</h1>
+    <form method="POST">
+      <input type="text" placeholder="Library Address" name="library_adress">
+      <br>
+      <br>
+      <input type="text" placeholder="Delivery Address" name="delivery_adress">
+      <br>
+      <br>
+      <input type="password" placeholder="Your Pickup Code" name="library_code">
+      <br>
+      <br>
+      <input type="text" placeholder="Phone Number" name="phone_number">
+      <br>
+      <br>
+      <button type="submit">Submit Request</button>
+      <br>
+      <br>
+    </form>
+
+    <script>
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      var email_addy = urlParams.get('email')
+      console.log(email_addy);
+    </script>
+    <a href="/myrequests" onclick="location.href=this.href+'?email='+email_addy; return false"><button>My Requests</button></a>
+  </center>
+  </body>
+</html>

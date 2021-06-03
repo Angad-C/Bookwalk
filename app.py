@@ -1,14 +1,23 @@
 import pymongo
 from passlib.hash import pbkdf2_sha256
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash, session
 from bson import ObjectId
 import os
 connection_string = os.environ.get("MONGO_URI")
+if connection_string == None:
+  file = open("connection_string.txt")
+  connection_string = file.read().strip()
+  file.close()
 client = pymongo.MongoClient(connection_string)
 database = client["Entrepreneurship_Project_Database"]
 collection = database["My_Entrepreneurship_Project_Collection"]
 request_collection = database["Request_Collection"]
 app = Flask(__name__)
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if SECRET_KEY == None:
+  file = open("secret_key.txt")
+  app.config["SECRET_KEY"] = file.read().strip()
+  file.close()
 
 @app.route("/")
 def welcome():
@@ -54,17 +63,21 @@ def customerlogin():
     user = collection.find_one({"Email Adress":email_adress})
     if user != None:
       if pbkdf2_sha256.verify(password, user["Password"]) == True:
-        return redirect("/customerrequestpage?email="+email_adress)
+        session["email"] = email_adress
+        return redirect("/customerrequestpage")
       else:
-        # flash ("Login failed")
+        flash ("Login failed")
         return redirect("/customerlogin")
     else:
-      # flash ("Password incorrect")
+      flash ("Password incorrect")
       return redirect("/customerlogin")
 
 @app.route("/customerrequestpage", methods = ["GET","POST"])
 def customerrequest():
-  user_email = request.args.get("email")
+  if "email" not in session:
+    flash("Please log in to continue")
+    return redirect("/")
+  user_email = session["email"]
   if request.method == "GET":
     return render_template("customerorderpage.html")
   else:
@@ -78,20 +91,29 @@ def customerrequest():
 
 @app.route("/myrequests", methods = ["GET","POST"])
 def myrequests():
+  if "email" not in session:
+    flash("Please log in to continue")
+    return redirect("/")
   user_email = request.args.get("email")
   user_requests = request_collection.find({"Email Adress":user_email})
   return render_template("myrequests.html",user_requests = user_requests)
 
 @app.route("/remove")
 def remove():
+    if "email" not in session:
+      flash("Please log in to continue")
+      return redirect("/")
     #Deleting a Task with various references
     user_email = request.args.get("email")
-    key = request.values.get("_id")    
+    key = request.values.get("_id")
     request_collection.remove({"_id":ObjectId(key)})
     return redirect("/myrequests?email="+user_email)
 
 @app.route("/volunteerpage", methods = ["GET","POST"])
 def volunteerpage():
+  if "email" not in session:
+    flash("Please log in to continue")
+    return redirect("/")
   user_email = request.args.get("email")
   user_requests = request_collection.find({"Status":"Open"})
   my_picks = request_collection.find({"Volunteer":user_email, "Status":"Picked"})
@@ -101,6 +123,9 @@ def volunteerpage():
 
 @app.route("/cancel")
 def cancel():
+    if "email" not in session:
+      flash("Please log in to continue")
+      return redirect("/")
     #Deleting a Task with various references
     user_email = request.args.get("email")
     key = request.values.get("_id")    
@@ -109,6 +134,9 @@ def cancel():
 
 @app.route("/picked")
 def picked():
+    if "email" not in session:
+      flash("Please log in to continue")
+      return redirect("/")
     #Deleting a Task with various references
     user_email = request.args.get("email")
     key = request.values.get("_id")    
@@ -117,6 +145,9 @@ def picked():
   
 @app.route("/delivered")
 def delivered():
+    if "email" not in session:
+      flash("Please log in to continue")
+      return redirect("/")
     #Deleting a Task with various references
     user_email = request.args.get("email")
     key = request.values.get("_id")    
@@ -130,6 +161,15 @@ def termsandconditions():
 @app.route("/instructions")
 def instructions():
     return render_template("instructions.html")
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
+
+@app.route("/logout")
+def logout():
+  session.pop("email")
+  return redirect("/")
 
 if __name__ == "__main__":
   app.run()

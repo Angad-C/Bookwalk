@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Welcome</title>
-    <link rel="stylesheet" href="../static/entrepreneurship_project_style.css">
-    <center>
-      <img src="https://garfieldparkacademy.org/wp-content/uploads/2017/04/storywalk-graphic.png" alt="" class="image" height="350">
+
+<head>
+  <title>Welcome</title>
+  <link rel="stylesheet" href="../static/entrepreneurship_project_style.css">
+  <center>
+    <img src="https://garfieldparkacademy.org/wp-content/uploads/2017/04/storywalk-graphic.png" alt="" class="image"
+      height="350">
     <h1>Welcome To Our Library Delivery Service - Bookwalk!</h1>
-  </head>
-  <body>
-    <h2>Are You a Customer or a Volunteer?</h2>
-    <a href="/customerlogin"><button>Customer</button></a>
-    <a href="/volunteerlogin"><button>Volunteer</button></a>
-    <br>
-    <br>
-    <a href="/signup"><button>Sign Up</button></a>
-    <br>
-    <br>
-    <a href="/instructions"><button>Instructions</button></a>
+</head>
+
+<body>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class="flashes danger" style="background-color: red;">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+  <h2>Are You a Customer or a Volunteer?</h2>
+  <a href="/customerlogin"><button>Customer</button></a>
+  <a href="/volunteerlogin"><button>Volunteer</button></a>
+  <br>
+  <br>
+  <a href="/signup"><button>Sign Up</button></a>
+  <br>
+  <br>
+  <a href="/instructions"><button>Instructions</button></a>
 
   </center>
   <p>
     By using our website you agree to our <a href="/ourtermsandconditions">Terms and Conditions</a>
   </p>
-  </body>
+</body>
+
 </html>

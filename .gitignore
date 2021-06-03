@@ -1,3 +1,5 @@
 venv/
 .idea/
 __pycache__/
+connection_string.txt
+secret_key.txt

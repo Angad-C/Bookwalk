@@ -13,11 +13,12 @@ database = client["Entrepreneurship_Project_Database"]
 collection = database["My_Entrepreneurship_Project_Collection"]
 request_collection = database["Request_Collection"]
 app = Flask(__name__)
-SECRET_KEY = os.environ.get("SECRET_KEY")
-if SECRET_KEY == None:
+secret_key = os.environ.get("SECRET_KEY")
+if secret_key == None:
   file = open("secret_key.txt")
-  app.config["SECRET_KEY"] = file.read().strip()
+  secret_key = file.read().strip()
   file.close()
+app.config["SECRET_KEY"] = secret_key
 
 @app.route("/")
 def welcome():
